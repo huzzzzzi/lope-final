@@ -1,0 +1,15 @@
+.shell{min-height:100vh;background:var(--parchment);display:flex;align-items:center;justify-content:center;padding:24px;background-image:radial-gradient(ellipse 60% 50% at 80% 20%,rgba(28,74,59,.07),transparent),radial-gradient(ellipse 40% 40% at 10% 80%,rgba(232,168,56,.06),transparent)}
+.card{background:var(--white);border:1px solid var(--mist);border-radius:var(--r-2xl);padding:40px;width:100%;max-width:420px;box-shadow:var(--shadow-lg);animation:fadeUp .35s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.logo{display:flex;align-items:center;gap:10px;margin-bottom:28px}
+.mark{width:30px;height:30px;position:relative;flex-shrink:0}
+.mL{position:absolute;bottom:0;left:0;width:9px;height:24px;background:var(--forest);border-radius:3px}
+.mB{position:absolute;bottom:0;left:0;width:24px;height:9px;background:var(--forest);border-radius:0 0 3px 3px}
+.mD{position:absolute;top:0;right:0;width:11px;height:11px;border-radius:50%;background:var(--amber)}
+.logoText{font-family:var(--font-display);font-weight:800;font-size:21px;letter-spacing:-.5px;color:var(--ink)}
+.heading{font-family:var(--font-display);font-size:24px;font-weight:800;color:var(--ink);margin-bottom:4px}
+.sub{font-size:13.5px;color:var(--stone);margin-bottom:24px}
+.err{padding:10px 14px;border-radius:var(--r-md);background:var(--ember-light);border:1px solid #f4c4b8;color:var(--ember);font-size:13px;margin-bottom:16px}
+.sw{text-align:center;font-size:13px;color:var(--stone);margin-top:20px}
+.swLink{color:var(--forest);font-weight:600}.swLink:hover{text-decoration:underline}
+.demo{margin-top:14px;padding:10px 14px;background:var(--forest-tint);border:1px solid #a8d5c4;border-radius:var(--r-md);font-size:12px;color:var(--forest);text-align:center}

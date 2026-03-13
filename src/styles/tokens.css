@@ -1,0 +1,104 @@
+/* ═══════════════════════════════════════════════════════
+   LOPE Design System — CSS Custom Properties
+   ═══════════════════════════════════════════════════════ */
+:root {
+  /* Brand colors */
+  --forest:       #1c4a3b;
+  --forest-mid:   #2d6b57;
+  --forest-light: #3d8c71;
+  --forest-tint:  #e6f2ee;
+  --amber:        #e8a838;
+  --amber-light:  #fdf3dc;
+  --ember:        #d64e2a;
+  --ember-light:  #fdf0ed;
+
+  /* Neutrals */
+  --ink:       #18180f;
+  --slate:     #3d3d35;
+  --stone:     #7a7a72;
+  --fog:       #b8b8b0;
+  --mist:      #e4e4de;
+  --smoke:     #f0f0ea;
+  --parchment: #f8f7f4;
+  --white:     #ffffff;
+
+  /* Typography */
+  --font-display: 'Plus Jakarta Sans', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+
+  /* Layout */
+  --sidebar-w: 232px;
+  --topbar-h:  58px;
+
+  /* Border radius */
+  --r-sm:   6px;
+  --r-md:   8px;
+  --r-lg:   12px;
+  --r-xl:   16px;
+  --r-2xl:  24px;
+  --r-pill: 999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 4px rgba(24,24,15,.08);
+  --shadow-md: 0 4px 14px rgba(24,24,15,.10);
+  --shadow-lg: 0 12px 36px rgba(24,24,15,.12);
+  --shadow-xl: 0 24px 60px rgba(24,24,15,.15);
+
+  /* Transition */
+  --t: .15s ease;
+}
+
+/* ── Reset ──────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
+html   { font-size: 14px }
+body   { font-family: var(--font-body); background: var(--parchment); color: var(--ink); line-height: 1.6; -webkit-font-smoothing: antialiased }
+img, video { max-width: 100%; display: block }
+button { cursor: pointer; font-family: inherit }
+a      { color: inherit; text-decoration: none }
+input, select, textarea { font-family: var(--font-body) }
+:focus-visible { outline: 2px solid var(--forest); outline-offset: 2px }
+::-webkit-scrollbar       { width: 6px; height: 6px }
+::-webkit-scrollbar-thumb { background: var(--mist); border-radius: 999px }
+
+/* ── Animations ─────────────────────────────────────────────────────────── */
+@keyframes fadeUp   { from { opacity:0; transform:translateY(12px) } to { opacity:1; transform:translateY(0) } }
+@keyframes shimmer  { from { background-position:-400px 0 } to { background-position:400px 0 } }
+@keyframes spin     { to   { transform:rotate(360deg) } }
+
+/* ── Utility classes ────────────────────────────────────────────────────── */
+.fade-up  { animation: fadeUp .4s ease both }
+.skeleton { background: linear-gradient(90deg, var(--smoke) 25%, var(--mist) 50%, var(--smoke) 75%); background-size: 400px 100%; animation: shimmer 1.4s infinite; border-radius: var(--r-sm) }
+
+/* ── Typography helpers ─────────────────────────────────────────────────── */
+.section-title { font-family:var(--font-display); font-size:10.5px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--stone); margin-bottom:14px }
+.page-title    { font-family:var(--font-display); font-size:22px; font-weight:800; color:var(--ink); letter-spacing:-.5px }
+.page-sub      { font-size:13px; color:var(--stone); margin-top:3px }
+.page-header   { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:24px; gap:16px; flex-wrap:wrap }
+
+/* ── Card ───────────────────────────────────────────────────────────────── */
+.card { background:var(--white); border:1px solid var(--mist); border-radius:var(--r-lg); box-shadow:var(--shadow-sm); overflow:hidden }
+
+/* ── Form elements ──────────────────────────────────────────────────────── */
+.form-group   { margin-bottom: 16px }
+.form-row     { display: grid; grid-template-columns: 1fr 1fr; gap: 12px }
+.form-label   { display:block; margin-bottom:5px; font-family:var(--font-display); font-size:11px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; color:var(--stone) }
+.form-input   { width:100%; padding:9px 12px; background:var(--parchment); border:1.5px solid var(--mist); border-radius:var(--r-md); font-size:13.5px; color:var(--ink); transition:border-color var(--t),box-shadow var(--t) }
+.form-input:focus        { border-color:var(--forest); box-shadow:0 0 0 3px rgba(28,74,59,.1); outline:none }
+.form-input::placeholder { color:var(--fog) }
+.form-input.error        { border-color:var(--ember) }
+.form-error   { font-size:12px; color:var(--ember); margin-top:4px }
+textarea.form-input { resize:vertical; min-height:80px }
+select.form-input   { cursor:pointer; appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7a72' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 12px center; padding-right:32px }
+
+/* ── Toast notifications ────────────────────────────────────────────────── */
+.toast-container { position:fixed; bottom:24px; right:24px; z-index:9999; display:flex; flex-direction:column; gap:8px }
+.toast           { display:flex; align-items:center; gap:10px; padding:12px 18px; border-radius:var(--r-lg); font-size:13px; font-weight:500; font-family:var(--font-display); box-shadow:var(--shadow-lg); min-width:240px; cursor:pointer; animation:fadeUp .3s ease both }
+.toast-success   { background:var(--forest); color:white }
+.toast-error     { background:var(--ember);  color:white }
+.toast-info      { background:var(--ink);    color:white }
+
+/* ── Empty state ────────────────────────────────────────────────────────── */
+.empty-state      { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:80px 20px; text-align:center }
+.empty-state .icon{ font-size:52px; margin-bottom:14px; opacity:.35 }
+.empty-state h3   { font-family:var(--font-display); font-size:18px; font-weight:700; color:var(--ink); margin-bottom:8px }
+.empty-state p    { font-size:13px; color:var(--stone); max-width:320px }

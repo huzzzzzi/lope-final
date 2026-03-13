@@ -1,0 +1,10 @@
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:none;border-radius:var(--r-md);font-family:var(--font-display);font-weight:600;white-space:nowrap;transition:all var(--t);cursor:pointer;line-height:1}
+.btn:disabled{opacity:.5;cursor:not-allowed;pointer-events:none}.fw{width:100%}
+.sm{padding:6px 13px;font-size:12px}.md{padding:9px 18px;font-size:13px}.lg{padding:12px 26px;font-size:15px;border-radius:var(--r-lg)}
+.primary{background:var(--forest);color:white;border:1.5px solid var(--forest)}.primary:hover:not(:disabled){background:var(--forest-mid);transform:translateY(-1px);box-shadow:0 4px 14px rgba(28,74,59,.25)}
+.amber{background:var(--amber);color:var(--ink);border:1.5px solid var(--amber)}.amber:hover:not(:disabled){background:#d49530}
+.outline{background:transparent;color:var(--forest);border:1.5px solid var(--forest)}.outline:hover:not(:disabled){background:var(--forest-tint)}
+.ghost{background:var(--smoke);color:var(--slate);border:1.5px solid var(--mist)}.ghost:hover:not(:disabled){background:var(--mist);color:var(--ink)}
+.danger{background:var(--ember-light);color:var(--ember);border:1.5px solid #f4c4b8}.danger:hover:not(:disabled){background:#f8d0c8}
+.spinner{width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}

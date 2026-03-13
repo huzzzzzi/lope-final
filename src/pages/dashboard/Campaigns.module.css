@@ -1,0 +1,14 @@
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:var(--white);border:1px solid var(--mist);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-sm);transition:box-shadow var(--t)}.card:hover{box-shadow:var(--shadow-md)}
+.cardTop{padding:20px 20px 16px;position:relative;min-height:110px;display:flex;flex-direction:column;justify-content:flex-end}
+.cardPill{position:absolute;top:14px;right:14px}
+.cardName{font-family:var(--font-display);font-size:16px;font-weight:800;color:white;line-height:1.2;text-shadow:0 1px 3px rgba(0,0,0,.2)}
+.cardCount{font-size:12px;color:rgba(255,255,255,.7);margin-top:4px}
+.cardBody{padding:16px}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.meta span{font-size:11px;color:var(--stone);background:var(--smoke);padding:3px 8px;border-radius:var(--r-pill);border:1px solid var(--mist)}
+.desc{font-size:12.5px;color:var(--stone);margin-bottom:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.actions{display:flex;gap:6px;flex-wrap:wrap}
+.filterBtn{padding:6px 14px;border-radius:var(--r-pill);border:1.5px solid var(--mist);background:var(--white);color:var(--stone);font-family:var(--font-display);font-size:12.5px;font-weight:600;cursor:pointer;transition:all var(--t)}.filterBtn:hover{background:var(--smoke)}
+.filterActive{border-color:var(--forest)!important;background:var(--forest)!important;color:white!important}
+@media(max-width:1000px){.grid{grid-template-columns:1fr 1fr}}@media(max-width:640px){.grid{grid-template-columns:1fr}}

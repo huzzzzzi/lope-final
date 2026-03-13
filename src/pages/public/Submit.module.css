@@ -1,0 +1,9 @@
+.shell{min-height:100vh;background:var(--parchment);display:flex;align-items:flex-start;justify-content:center;padding:32px 16px 60px}
+.card{background:var(--white);border:1px solid var(--mist);border-radius:var(--r-2xl);width:100%;max-width:540px;box-shadow:var(--shadow-lg);animation:fadeUp .35s ease;overflow:hidden;padding:28px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.hero{margin:-28px -28px 20px;padding:24px 28px 20px}
+.heroTitle{font-family:var(--font-display);font-size:22px;font-weight:800;color:white;margin-bottom:6px;text-shadow:0 1px 4px rgba(0,0,0,.15)}
+.heroDesc{font-size:13.5px;color:rgba(255,255,255,.8);line-height:1.5;margin-bottom:10px}
+.heroBadge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:var(--r-pill);background:rgba(255,255,255,.15);color:white;font-size:12px;font-weight:600;backdrop-filter:blur(4px)}
+.drop{display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px dashed var(--mist);border-radius:var(--r-lg);padding:32px 20px;cursor:pointer;transition:all var(--t);background:var(--parchment);text-align:center}
+.drop:hover{border-color:var(--forest);background:var(--forest-tint)}.dropErr{border-color:var(--ember)!important}
