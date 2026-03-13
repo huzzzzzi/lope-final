@@ -3,14 +3,15 @@
  * Replaces all Vercel serverless functions with one standard Express app.
  */
 
+const path = require('path');
 const express = require('express')
-const cors    = require('cors')
-const bcrypt  = require('bcryptjs')
-const jwt     = require('jsonwebtoken')
+const cors = require('cors')
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 const { brands, campaigns, submissions, stories, stats, setupAndSeed } = require('./api/lib/db')
 
-const app  = express()
+const app = express()
 const PORT = process.env.PORT || 4000
 
 // ── Middleware ───────────────────────────────────────────────────────────────
@@ -58,8 +59,8 @@ app.post('/api/auth/register', async (req, res) => {
     const { name, email, password } = req.body
     const errs = []
     if (!name?.trim() || name.trim().length < 2) errs.push('Brand name must be 2+ characters')
-    if (!email || !/\S+@\S+\.\S+/.test(email))   errs.push('Valid email required')
-    if (!password || password.length < 8)          errs.push('Password must be 8+ characters')
+    if (!email || !/\S+@\S+\.\S+/.test(email)) errs.push('Valid email required')
+    if (!password || password.length < 8) errs.push('Password must be 8+ characters')
     if (errs.length) return res.status(400).json({ error: errs.join('. ') })
     if (await brands.byEmail(email)) return res.status(409).json({ error: 'Email already registered' })
     const passwordHash = await bcrypt.hash(password, 10)
@@ -82,7 +83,7 @@ app.patch('/api/auth/profile', async (req, res) => {
   try {
     const { name, email } = req.body
     if (!name?.trim() || name.trim().length < 2) return res.status(400).json({ error: 'Name too short' })
-    if (!email || !/\S+@\S+\.\S+/.test(email))   return res.status(400).json({ error: 'Valid email required' })
+    if (!email || !/\S+@\S+\.\S+/.test(email)) return res.status(400).json({ error: 'Valid email required' })
     const ex = await brands.byEmail(email)
     if (ex && ex.id !== user.id) return res.status(409).json({ error: 'Email already in use' })
     const updated = await brands.update(user.id, { name: name.trim(), email })
@@ -94,7 +95,7 @@ app.patch('/api/auth/password', async (req, res) => {
   const user = requireAuth(req, res); if (!user) return
   try {
     const { currentPassword, newPassword } = req.body
-    if (!currentPassword)                       return res.status(400).json({ error: 'Current password required' })
+    if (!currentPassword) return res.status(400).json({ error: 'Current password required' })
     if (!newPassword || newPassword.length < 8) return res.status(400).json({ error: 'New password must be 8+ characters' })
     const brand = await brands.byId(user.id)
     if (!(await bcrypt.compare(currentPassword, brand.password_hash)))
@@ -117,7 +118,7 @@ app.post('/api/campaigns', async (req, res) => {
   const user = requireAuth(req, res); if (!user) return
   try {
     const { name, description, startDate, endDate, moderationType, customFields, coverColor } = req.body
-    if (!name?.trim())          return res.status(400).json({ error: 'Campaign name required' })
+    if (!name?.trim()) return res.status(400).json({ error: 'Campaign name required' })
     if (!startDate || !endDate) return res.status(400).json({ error: 'Start and end date required' })
     if (new Date(startDate) >= new Date(endDate)) return res.status(400).json({ error: 'End date must be after start date' })
     const base = name.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
@@ -154,7 +155,7 @@ app.delete('/api/campaigns/:id', async (req, res) => {
 app.get('/api/public/:slug', async (req, res) => {
   try {
     const camp = await campaigns.bySlug(req.params.slug)
-    if (!camp)                   return res.status(404).json({ error: 'Campaign not found' })
+    if (!camp) return res.status(404).json({ error: 'Campaign not found' })
     if (camp.status === 'ended') return res.status(410).json({ error: 'This campaign has ended' })
     if (camp.status === 'draft') return res.status(403).json({ error: 'Campaign is not live yet' })
     const { brandId: _, ...safe } = camp
@@ -165,13 +166,13 @@ app.get('/api/public/:slug', async (req, res) => {
 app.post('/api/public/:slug/submit', async (req, res) => {
   try {
     const camp = await campaigns.bySlug(req.params.slug)
-    if (!camp)                   return res.status(404).json({ error: 'Campaign not found' })
+    if (!camp) return res.status(404).json({ error: 'Campaign not found' })
     if (camp.status === 'ended') return res.status(410).json({ error: 'Campaign has ended' })
     if (camp.status === 'draft') return res.status(403).json({ error: 'Campaign not live' })
     const { name, contact, message, customAnswers, mediaUrl, mediaType } = req.body
-    if (!name?.trim())    return res.status(400).json({ error: 'Name required' })
+    if (!name?.trim()) return res.status(400).json({ error: 'Name required' })
     if (!contact?.trim()) return res.status(400).json({ error: 'Contact required' })
-    if (!mediaUrl)        return res.status(400).json({ error: 'Media required' })
+    if (!mediaUrl) return res.status(400).json({ error: 'Media required' })
     const status = camp.moderationType === 'auto' ? 'approved' : 'pending'
     const sub = await submissions.create({ campaignId: camp.id, name: name.trim(), contact: contact.trim(), message: message?.trim() || null, customAnswers: customAnswers || {}, mediaUrl, mediaType: mediaType || 'image', status })
     if (status === 'approved') await stories.create({ submissionId: sub.id, campaignName: camp.name, generatedMediaUrl: null, status: 'processing' })
@@ -200,7 +201,7 @@ app.patch('/api/submissions/:id', async (req, res) => {
     if (!allSubs.find(s => s.id === id)) return res.status(403).json({ error: 'Forbidden' })
     const updated = await submissions.update(id, { status })
     if (status === 'approved' && !(await stories.bySubmissionId(id))) {
-      const sub  = await submissions.byId(id)
+      const sub = await submissions.byId(id)
       const camp = await campaigns.byId(sub.campaignId)
       await stories.create({ submissionId: id, campaignName: camp?.name || null, generatedMediaUrl: null, status: 'processing' })
     }
@@ -240,4 +241,13 @@ app.get('/api/stats', async (req, res) => {
 // ════════════════════════════════════════════════════════════════════════════
 //  START
 // ════════════════════════════════════════════════════════════════════════════
+
+// Serve the frontend Vite app
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// Catch-all route to hand over routing to the React/Vite frontend
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
 app.listen(PORT, () => console.log(`LOPE backend running on port ${PORT}`))
