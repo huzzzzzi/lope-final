@@ -1,10 +1,10 @@
 const TOKEN_KEY = 'lope_token'
-const BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000'
+const BASE = import.meta.env.VITE_API_URL || 'https://lope-final-production.up.railway.app'
 
 export const token = {
-  get:   ()  => localStorage.getItem(TOKEN_KEY),
-  set:   (t) => localStorage.setItem(TOKEN_KEY, t),
-  clear: ()  => localStorage.removeItem(TOKEN_KEY),
+  get: () => localStorage.getItem(TOKEN_KEY),
+  set: (t) => localStorage.setItem(TOKEN_KEY, t),
+  clear: () => localStorage.removeItem(TOKEN_KEY),
 }
 
 async function request(method, url, body, isPublic = false) {
@@ -30,12 +30,12 @@ async function request(method, url, body, isPublic = false) {
 }
 
 export const api = {
-  get:    (path)       => request('GET',    path),
-  post:   (path, body) => request('POST',   path, body),
-  patch:  (path, body) => request('PATCH',  path, body),
-  delete: (path)       => request('DELETE', path),
+  get: (path) => request('GET', path),
+  post: (path, body) => request('POST', path, body),
+  patch: (path, body) => request('PATCH', path, body),
+  delete: (path) => request('DELETE', path),
   public: {
-    get:  (path)       => request('GET',  path, undefined, true),
+    get: (path) => request('GET', path, undefined, true),
     post: (path, body) => request('POST', path, body, true),
   },
 }
