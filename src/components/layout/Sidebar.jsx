@@ -17,12 +17,12 @@ const NAV = [
 
 const initials = name => (name || '').split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() || '?'
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen, onClose }) {
   const { brand, logout } = useAuth()
   const toast    = useToast()
   const navigate = useNavigate()
   return (
-    <aside className={s.sidebar}>
+    <aside className={`${s.sidebar} ${isOpen ? s.open : ''}`}>
       <div className={s.logo}>
         <div className={s.mark}><div className={s.mL}/><div className={s.mB}/><div className={s.mD}/></div>
         <span className={s.logoText}>LOPE</span>
@@ -34,7 +34,8 @@ export default function Sidebar() {
             <div className={s.sec}>{section}</div>
             {items.map(({ to, end, icon, label }) => (
               <NavLink key={to} to={to} end={end}
-                className={({ isActive }) => [s.link, isActive ? s.active : ''].join(' ')}>
+                className={({ isActive }) => [s.link, isActive ? s.active : ''].join(' ')}
+                onClick={onClose}>
                 <span className={s.icon}>{icon}</span>{label}
               </NavLink>
             ))}
