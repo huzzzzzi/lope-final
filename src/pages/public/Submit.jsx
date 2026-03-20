@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
+import { api } from '../../lib/api'
 import Button from '../../components/ui/Button'
 import s from './Submit.module.css'
 
@@ -46,8 +47,7 @@ export default function Submit() {
   const fileRef = useRef()
 
   useEffect(() => {
-    fetch((import.meta.env.VITE_API_URL || '') + '/api/public/' + slug)
-      .then(r => r.json())
+    api.public.get('/public/' + slug)
       .then(d => { if (d.campaign) { setCamp(d.campaign); setPage('form') } else setPage('error') })
       .catch(() => setPage('error'))
   }, [slug])
@@ -77,13 +77,10 @@ export default function Submit() {
     try {
       const { url: mediaUrl, type: mediaType } = await uploadToCloudinary(file)
       setProgress('Submitting…')
-      const res = await fetch((import.meta.env.VITE_API_URL || '') + '/api/public/' + slug + '/submit', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ name:form.name.trim(), contact:form.contact.trim(), message:form.message.trim(), customAnswers:form.customAnswers, mediaUrl, mediaType }),
+      const d = await api.public.post('/public/' + slug + '/submit', {
+        name:form.name.trim(), contact:form.contact.trim(), message:form.message.trim(),
+        customAnswers:form.customAnswers, mediaUrl, mediaType,
       })
-      const d = await res.json()
-      if (!res.ok) throw new Error(d.error || 'Submission failed')
       setPage('success')
     } catch (e) {
       setApiErr(e.message)
@@ -166,9 +163,15 @@ export default function Submit() {
           {campaign?.customFields?.map(f => (
             <div className="form-group" key={f.id}>
               <label className="form-label">{f.label}{f.required && <span style={{ color:'var(--ember)', marginLeft:2 }}>*</span>}</label>
-              <input className={`form-input${errors['cf_'+f.id]?' error':''}`} type="text" placeholder={f.placeholder}
-                value={form.customAnswers[f.id]||''}
-                onChange={e => { setForm(p=>({...p,customAnswers:{...p.customAnswers,[f.id]:e.target.value}})); setErrs(p=>({...p,['cf_'+f.id]:''})) }}/>
+              {f.type === 'textarea' ? (
+                <textarea className={`form-input${errors['cf_'+f.id]?' error':''}`} rows={3} placeholder={f.placeholder}
+                  value={form.customAnswers[f.id]||''}
+                  onChange={e => { setForm(p=>({...p,customAnswers:{...p.customAnswers,[f.id]:e.target.value}})); setErrs(p=>({...p,['cf_'+f.id]:''})) }}/>
+              ) : (
+                <input className={`form-input${errors['cf_'+f.id]?' error':''}`} type="text" placeholder={f.placeholder}
+                  value={form.customAnswers[f.id]||''}
+                  onChange={e => { setForm(p=>({...p,customAnswers:{...p.customAnswers,[f.id]:e.target.value}})); setErrs(p=>({...p,['cf_'+f.id]:''})) }}/>
+              )}
               {errors['cf_'+f.id] && <div className="form-error">{errors['cf_'+f.id]}</div>}
             </div>
           ))}

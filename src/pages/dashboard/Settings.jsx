@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { api } from '../../lib/api'
 import { useAuth } from '../../context/AuthContext'
 import { useToast } from '../../context/ToastContext'
@@ -23,6 +23,11 @@ export default function Settings() {
   const [pass, setPass]   = useState({ current:'', next:'', confirm:'' })
   const [passE, setPassE] = useState({})
   const [passL, setPassL] = useState(false)
+
+  // Sync form when brand loads asynchronously
+  useEffect(() => {
+    if (brand) setProf({ name: brand.name || '', email: brand.email || '' })
+  }, [brand])
 
   async function saveProfile(e) {
     e.preventDefault()
@@ -92,7 +97,7 @@ export default function Settings() {
 
       <Section title="About" sub="Technical information about this deployment">
         <div style={{ padding:'14px 16px', background:'var(--smoke)', borderRadius:'var(--r-lg)', border:'1px solid var(--mist)' }}>
-          {[['Version','2.0.0'],['Frontend','React 18 + Vite'],['Backend','Vercel Serverless Functions'],['Database','Neon PostgreSQL'],['Auth','JWT (7 day expiry)'],['File Uploads','Cloudinary (direct browser upload)']].map(([l,v]) => (
+          {[['Version','2.0.0'],['Frontend','React 18 + Vite'],['Backend','Express (Railway)'],['Database','Neon PostgreSQL'],['Auth','JWT (7 day expiry)'],['File Uploads','Cloudinary (direct browser upload)']].map(([l,v]) => (
             <div key={l} style={{ display:'flex', gap:12, padding:'6px 0', borderBottom:'1px solid var(--mist)', fontSize:13 }}>
               <span style={{ color:'var(--stone)', minWidth:120 }}>{l}</span>
               <span style={{ color:'var(--ink)', fontWeight:500 }}>{v}</span>

@@ -9,3 +9,13 @@
 .close:hover{background:var(--mist);color:var(--ink)}
 .body{padding:22px 24px;overflow-y:auto;flex:1}
 .footer{display:flex;justify-content:flex-end;gap:8px;padding:16px 24px;border-top:1px solid var(--mist)}
+
+@media(max-width:640px){
+  .overlay{padding:12px;align-items:flex-end}
+  .modal{max-height:calc(100dvh - 24px);border-radius:var(--r-xl) var(--r-xl) var(--r-lg) var(--r-lg)}
+  .sm,.md,.lg{max-width:100%}
+  .header{padding:16px 18px}
+  .body{padding:16px 18px}
+  .footer{padding:12px 18px}
+}
+

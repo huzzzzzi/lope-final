@@ -75,7 +75,7 @@ export default function Overview() {
             {submissions.slice(0, 4).map((sub, i) => (
               <div key={sub.id} style={{ display:'flex', gap:12, padding:'12px 16px', borderBottom:i<3?'1px solid var(--mist)':'none', alignItems:'center' }}>
                 <div style={{ width:44, height:44, borderRadius:8, overflow:'hidden', flexShrink:0, background:'var(--smoke)' }}>
-                  <img src={sub.mediaUrl||sub.media_url} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }}/>
+                  <img src={sub.mediaUrl} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }}/>
                 </div>
                 <div style={{ flex:1, minWidth:0 }}>
                   <div style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:600, color:'var(--ink)' }}>{sub.name}</div>

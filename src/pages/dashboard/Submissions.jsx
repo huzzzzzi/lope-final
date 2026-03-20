@@ -54,7 +54,7 @@ export default function Submissions() {
           {subs.map(sub => (
             <div key={sub.id} className={s.card} onClick={() => setSelected(sub)}>
               <div className={s.thumb}>
-                <img src={sub.mediaUrl||sub.media_url} alt={sub.name} style={{ width:'100%', height:'100%', objectFit:'cover' }}/>
+                <img src={sub.mediaUrl} alt={sub.name} style={{ width:'100%', height:'100%', objectFit:'cover' }}/>
                 <div className={s.pill}><Pill variant={SV[sub.status]||'gray'} dot>{sub.status}</Pill></div>
                 {sub.status === 'pending' && (
                   <div className={s.quickActions} onClick={e => e.stopPropagation()}>
@@ -66,7 +66,7 @@ export default function Submissions() {
               <div className={s.info}>
                 <div className={s.infoName}>{sub.name}</div>
                 <div className={s.infoCamp}>{sub.campaign?.name}</div>
-                <div className={s.infoDate}>{new Date(sub.createdAt||sub.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'2-digit'})}</div>
+                <div className={s.infoDate}>{new Date(sub.createdAt).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'2-digit'})}</div>
               </div>
             </div>
           ))}
@@ -77,10 +77,10 @@ export default function Submissions() {
         {selected && (
           <div>
             <div style={{ borderRadius:'var(--r-lg)', overflow:'hidden', marginBottom:20, background:'var(--smoke)', maxHeight:300, display:'flex', alignItems:'center', justifyContent:'center' }}>
-              <img src={selected.mediaUrl||selected.media_url} alt="" style={{ width:'100%', maxHeight:300, objectFit:'contain' }}/>
+              <img src={selected.mediaUrl} alt="" style={{ width:'100%', maxHeight:300, objectFit:'contain' }}/>
             </div>
             <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:16 }}>
-              {[['Name',selected.name],['Contact',selected.contact],['Campaign',selected.campaign?.name],['Status',selected.status],['Submitted',new Date(selected.createdAt||selected.created_at).toLocaleDateString()]].map(([l,v]) => (
+              {[['Name',selected.name],['Contact',selected.contact],['Campaign',selected.campaign?.name],['Status',selected.status],['Submitted',new Date(selected.createdAt).toLocaleDateString()]].map(([l,v]) => (
                 <div key={l}><div style={{ fontSize:10.5, fontWeight:700, letterSpacing:1, textTransform:'uppercase', color:'var(--stone)', fontFamily:'var(--font-display)', marginBottom:3 }}>{l}</div><div style={{ fontSize:13.5, color:'var(--ink)', fontWeight:500 }}>{v||'—'}</div></div>
               ))}
             </div>

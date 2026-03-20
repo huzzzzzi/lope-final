@@ -3,6 +3,7 @@ import { api } from '../../lib/api'
 import { useToast } from '../../context/ToastContext'
 import Button from '../../components/ui/Button'
 import Pill   from '../../components/ui/Pill'
+import s from './Stories.module.css'
 
 const SV   = { completed:'green', processing:'blue', failed:'red' }
 const EMOJ = ['🏃','🏀','🧘','🎯','🌟','📸','🎨','✦']
@@ -35,15 +36,15 @@ export default function Stories() {
       <div className="page-header"><div><h1 className="page-title">Stories</h1><p className="page-sub">{stories.length} stories</p></div></div>
       <div style={{ display:'flex', gap:6, marginBottom:22 }}>
         {['all','completed','processing','failed'].map(f => (
-          <button key={f} onClick={() => setF(f)} style={{ padding:'7px 16px', borderRadius:'var(--r-pill)', border:'1.5px solid', borderColor:filter===f?'var(--forest)':'var(--mist)', background:filter===f?'var(--forest)':'var(--white)', color:filter===f?'white':'var(--stone)', fontFamily:'var(--font-display)', fontSize:12.5, fontWeight:600, cursor:'pointer', transition:'all .15s' }}>{f.charAt(0).toUpperCase()+f.slice(1)}</button>
+          <button key={f} onClick={() => setF(f)} className={s.filterBtn+(filter===f?' '+s.filterActive:'')}>{f.charAt(0).toUpperCase()+f.slice(1)}</button>
         ))}
       </div>
       {loading ? (
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:16 }}>{[0,1,2,3].map(i => <div key={i} className="skeleton" style={{ height:280, borderRadius:'var(--r-lg)' }}/>)}</div>
+        <div className={s.grid}>{[0,1,2,3].map(i => <div key={i} className="skeleton" style={{ height:280, borderRadius:'var(--r-lg)' }}/>)}</div>
       ) : stories.length === 0 ? (
         <div className="card"><div className="empty-state"><div className="icon">✦</div><h3>No stories yet</h3><p>Approve submissions to generate UGC stories.</p></div></div>
       ) : (
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:16 }}>
+        <div className={s.grid}>
           {stories.map((st, i) => (
             <div key={st.id} className="card">
               <div style={{ height:180, background:'linear-gradient(160deg,#1c4a3b,#2d6b57)', position:'relative', borderRadius:'var(--r-lg) var(--r-lg) 0 0', overflow:'hidden', display:'flex', alignItems:'center', justifyContent:'center' }}>
@@ -53,7 +54,7 @@ export default function Stories() {
               </div>
               <div style={{ padding:'14px 16px' }}>
                 <div style={{ fontFamily:'var(--font-display)', fontSize:13.5, fontWeight:700, color:'var(--ink)', marginBottom:4, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{st.campaignName||'Story #'+st.id}</div>
-                <div style={{ fontSize:11.5, color:'var(--stone)', marginBottom:12 }}>{st.submissionName} · {new Date(st.createdAt||st.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric'})}</div>
+                <div style={{ fontSize:11.5, color:'var(--stone)', marginBottom:12 }}>{st.submissionName} · {new Date(st.createdAt).toLocaleDateString('en-US',{month:'short',day:'numeric'})}</div>
                 <div style={{ display:'flex', gap:6 }}>
                   {st.status === 'processing' && <Button size="sm" fullWidth loading={generating===st.id} onClick={() => generate(st)}>Generate</Button>}
                   {st.status === 'completed'  && <><Button size="sm" variant="outline" onClick={() => window.open(st.generatedMediaUrl,'_blank')}>View</Button><Button size="sm" variant="ghost" onClick={() => { navigator.clipboard.writeText(st.generatedMediaUrl||''); toast.success('URL copied!') }}>Copy</Button></>}
