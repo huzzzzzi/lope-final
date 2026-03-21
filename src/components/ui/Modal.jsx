@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import s from './Modal.module.css'
 export default function Modal({ isOpen, onClose, title, children, footer, size='md' }) {
   const ref = useRef()
@@ -10,7 +11,7 @@ export default function Modal({ isOpen, onClose, title, children, footer, size='
     return () => { document.removeEventListener('keydown', handle); document.body.style.overflow = '' }
   }, [isOpen, onClose])
   if (!isOpen) return null
-  return (
+  return createPortal(
     <div ref={ref} className={s.overlay} onClick={e => { if (e.target === ref.current) onClose() }}>
       <div className={[s.modal, s[size]].join(' ')}>
         <div className={s.header}>
@@ -20,6 +21,7 @@ export default function Modal({ isOpen, onClose, title, children, footer, size='
         <div className={s.body}>{children}</div>
         {footer && <div className={s.footer}>{footer}</div>}
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }

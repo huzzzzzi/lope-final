@@ -18,7 +18,13 @@
 .logoutBtn{width:28px;height:28px;border-radius:var(--r-sm);background:transparent;border:1px solid var(--mist);color:var(--stone);font-size:16px;display:flex;align-items:center;justify-content:center;transition:all var(--t);flex-shrink:0;cursor:pointer}
 .logoutBtn:hover{background:var(--ember-light);color:var(--ember)}
 
-@media(max-width:767px){
-  .sidebar{transform:translateX(-100%);transition:transform .25s ease;box-shadow:none}
-  .sidebar.open{transform:translateX(0);box-shadow:var(--shadow-xl)}
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    z-index: 100;
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
 }

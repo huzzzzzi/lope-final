@@ -1,4 +1,4 @@
-.overlay{position:fixed;inset:0;z-index:500;background:rgba(24,24,15,.45);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:24px;animation:fi .2s ease}
+.overlay{position:fixed;inset:0;z-index:9998;background:rgba(24,24,15,.45);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:24px;animation:fi .2s ease}
 @keyframes fi{from{opacity:0}to{opacity:1}}
 .modal{background:var(--white);border:1px solid var(--mist);border-radius:var(--r-xl);box-shadow:var(--shadow-xl);display:flex;flex-direction:column;max-height:90vh;overflow:hidden;animation:su .25s ease}
 @keyframes su{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
